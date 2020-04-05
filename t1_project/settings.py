@@ -25,7 +25,10 @@ SECRET_KEY = '166wa7&i+5h$0x0)3t@31@z_jlhh-i$om1bfjqq5@v3fe)w60#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["shielded-depths-77368.herokuapp.com"]
+ALLOWED_HOSTS = [
+    "shielded-depths-77368.herokuapp.com",
+    "localhost"
+]
 
 
 # Application definition
