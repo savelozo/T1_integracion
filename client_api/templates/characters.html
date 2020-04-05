@@ -1,0 +1,48 @@
+<!doctype html>
+
+{% extends 'base.html' %}
+
+<head>
+  <style>
+
+    #episode-card{
+      padding-top: 10%;
+    }
+
+  </style>
+</head>
+
+{% block content %}
+<body>
+<div class="container" id='episode-card'>
+  <div class="row pt-5 justify-content-md-center">
+    <div class="col-md-6">
+      {% for character in characters %}
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <img class="card-img-top" src="{{ character.image }}">
+        <div class="col p-4 d-flex flex-column position-static align-self-center">
+            <strong class="d-inline-block mb-2 text-primary">Status: {{ character.status }}</strong>
+            <h3 class="mb-0">{{ character.name }}</h3>
+            <div class="mb-1 text-muted">{{ character.species }}, {{ character.gender }}, {{ character.type }}</div>
+            {% if origin == 'unknown' %}
+              <div class="mb-1 text-muted">Lugar origen: Desconocido</div>
+            {% else %}
+              <a class="mb-1 text-muted" href="{% url 'locations' origin.id %}">Lugar origen: {{ character.origin.name }}</a>
+            {% endif %}
+            {% if location == 'unknown' %}
+              <div class="mb-1 text-muted">Último lugar: Desconocido</div>
+            {% else %}
+              <a class="mb-1 text-muted" href="{% url 'locations' location.id %}">Último lugar: {{ character.location.name }}</a>
+            {% endif %}
+            <p class="card-text mb-auto"><b>Lista de episodios</b></p>
+            {% for episode in episodes %}
+              <a class="card-text mb-auto" href="{% url 'episodes' episode.id %}">{{ episode.name }}</a>
+            {% endfor %}
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+{% endblock %}

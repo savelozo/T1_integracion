@@ -1,0 +1,35 @@
+<!doctype html>
+
+{% extends 'base.html' %}
+
+<head>
+  <style>
+
+    #episode-card{
+      padding-top: 10%;
+    }
+
+  </style>
+</head>
+
+{% block content %}
+<body>
+<div class="container" id='episode-card'>
+  <div class="row pt-5 justify-content-md-center">
+    <div class="col-md-6">
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static align-self-center">
+          <strong class="d-inline-block mb-2 text-primary">{{ episode.episode }}</strong>
+          <h3 class="mb-0">{{ episode.name }}</h3>
+          <div class="mb-1 text-muted">{{ episode.air_date }}</div>
+          <p class="card-text mb-auto"><b>Lista de personajes</b></p>
+          {% for character in characters %}
+            <a class="card-text mb-auto" href="{% url 'characters' character.id %}">{{ character.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+{% endblock %}
