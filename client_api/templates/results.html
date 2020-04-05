@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main role="main">
+
+  {% if results.episodes|length == 0 and results.characters|length == 0 and results.locations|length == 0 %}
+
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1>Tú búsqueda no obtuvo resultados :(</h1>
+      <p class="lead text-muted">Estás segur@ qué sabes sobre la serie?</p>
+    </div>
+  </section>
+
+  {% else %}
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1>Toda la información de Rick & Morty en un solo lugar</h1>
+        <p class="lead text-muted">Entérate de todo sobre los personajes, episodios y lugares de tu serie favorita.</p>
+      </div>
+    </section>
+
+    {% if results.episodes|length > 0 %}
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1>Episodios</h1>
+        </div>
+      </section>
+    {% endif %}
+
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          {% for episode in results.episodes %}
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              <div class="card-body">
+                <p class="card-text">Código episodio: {{ episode.episode }}</p>
+                <a class="card-text" href="{% url 'episodes' episode.id %}">{{ episode.name }}</a>
+                <p class="card-text">Fecha estreno: {{ episode.air_date }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      {% if results.characters|length > 0 %}
+        <section class="jumbotron text-center">
+          <div class="container">
+            <h1>Personajes</h1>
+          </div>
+        </section>
+      {% endif %}
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <div class="row">
+            {% for character in results.characters %}
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                  <img class="card-img-top" src="{{ character.image }}">
+                  <a class="card-text" href="{% url 'characters' character.id %}">{{ character.name }}</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+
+
+      {% if results.locations|length > 0 %}
+        <section class="jumbotron text-center">
+          <div class="container">
+            <h1>Ubicaciones</h1>
+          </div>
+        </section>
+      {% endif %}
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <div class="row">
+            {% for location in results.locations %}
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                  {% if location.dimension == 'unknown' %}
+                    <p class="card-text">Unknown</p>
+                  {% else %}
+                    <p class="card-text">{{ location.dimension }}</p>
+                  {% endif %}
+                  <a class="card-text" href="{% url 'locations' location.id %}">{{ location.name }}</a>
+                  <p class="card-text">Tipo: {{ location.type }}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+
+    {% endif %}
+
+</main>
+{% endblock %}
