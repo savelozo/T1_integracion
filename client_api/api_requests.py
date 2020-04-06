@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = 'https://rickandmortyapi.com/api/'
+BASE_URL = "https://integracion-rick-morty-api.herokuapp.com/api/"
 
 def direct_request(url):
 
