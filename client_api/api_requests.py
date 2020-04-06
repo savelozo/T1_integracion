@@ -38,6 +38,26 @@ class episodes_requests:
         episode = requests.get(self.episodes_url + ids).json()
         return episode
 
+    def get_episodes_by_name(self, query):
+
+        url = self.episodes_url + "?name={}".format(query)
+        episodes = requests.get(url).json()
+
+        if 'results' in episodes:
+
+            list_episodes = episodes['results']
+
+            previous_page = episodes
+            for page in range(1, episodes['info']['pages']):
+                new_page = requests.get(previous_page['info']['next']).json()
+                list_episodes += new_page['results']
+                previous_page = new_page
+
+        else:
+            list_episodes = []
+
+        return list_episodes
+
 
 class characters_requests:
 
@@ -70,6 +90,23 @@ class characters_requests:
         characters = requests.get(self.characters_url + ids).json()
         return characters
 
+    def get_characters_by_name(self, query):
+
+        url = self.characters_url + "?name={}".format(query)
+        characters = requests.get(url).json()
+
+        if 'results' in characters:
+            list_characters = characters['results']
+            previous_page = characters
+            for page in range(1, characters['info']['pages']):
+                new_page = requests.get(previous_page['info']['next']).json()
+                list_characters += new_page['results']
+                previous_page = new_page
+        else:
+            list_characters = []
+
+        return list_characters
+
 class locations_requests:
 
     def __init__(self):
@@ -100,3 +137,20 @@ class locations_requests:
 
         locations = requests.get(self.locations_url + ids).json()
         return locations
+
+    def get_locations_by_name(self, query):
+
+        url = self.locations_url + "?name={}".format(query)
+        locations = requests.get(url).json()
+
+        if 'results' in locations:
+            list_locations = locations['results']
+            previous_page = locations
+            for page in range(1, locations['info']['pages']):
+                new_page = requests.get(previous_page['info']['next']).json()
+                list_locations += new_page['results']
+                previous_page = new_page
+        else:
+            list_locations = []
+
+        return list_locations

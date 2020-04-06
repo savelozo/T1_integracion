@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .api_requests import episodes_requests, characters_requests, locations_requests, direct_request
+from .api_requests import *
 
 def index(request):
 
@@ -96,33 +96,9 @@ def locations(request, id):
 
 def get_search_queryset(query=None):
 
-    _queries = query.split(" ")
-    queries = list()
-
-    for q in _queries:
-        queries.append(q.lower())
-
-    all_episodes = episodes_requests().all_episodes()
-    all_characters = characters_requests().all_characters()
-    all_locations = locations_requests().all_locations()
-
-    episodes_match = list()
-    characters_match = list()
-    locations_match = list()
-
-    for episode in all_episodes:
-        for word in queries:
-            if word in episode['name'].lower() and episode not in episodes_match:
-                episodes_match.append(episode)
-
-    for character in all_characters:
-        for word in queries:
-            if word in character['name'].lower() and character not in characters_match:
-                characters_match.append(character)
-
-    for location in all_locations:
-        for word in queries:
-            if word in location['name'].lower() and location not in locations_match:
-                locations_match.append(location)
+    episodes_match = episodes_requests().get_episodes_by_name(query)
+    characters_match = characters_requests().get_characters_by_name(query)
+    locations_match = locations_requests().get_locations_by_name(query)
+    print(episodes_match)
 
     return {'episodes': episodes_match, 'characters': characters_match, 'locations': locations_match}
